@@ -1,0 +1,19 @@
+[Unit]
+Description=Local Messenger
+After=network.target
+
+[Service]
+Type=simple
+User=__SERVICE_USER__
+WorkingDirectory=__SERVICE_ROOT__
+EnvironmentFile=/etc/local-messenger/env
+ExecStart=/usr/bin/node server/dist/index.js
+Restart=on-failure
+RestartSec=5
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=__SERVICE_ROOT__
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

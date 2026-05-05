@@ -1,0 +1,6 @@
+main { display: flex; flex-direction: column; height: 100%; }
+button { font: inherit; cursor: pointer; }
+input, textarea { font: inherit; color: inherit; }
+
+.install-hint { padding: var(--space-2) var(--space-3); background: var(--brand-tan-light); }
+.install-button { margin: var(--space-2); }
