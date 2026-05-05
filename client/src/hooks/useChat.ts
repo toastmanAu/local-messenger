@@ -34,7 +34,7 @@ export function useChat(myName: string): { state: ChatState; actions: ChatAction
     socketRef.current = sock;
 
     let dingAudio: HTMLAudioElement | null = null;
-    try { dingAudio = new Audio('sounds/notify.wav'); dingAudio.volume = 0.5; } catch {}
+    try { dingAudio = new Audio(`${import.meta.env.BASE_URL}sounds/notify.wav`); dingAudio.volume = 0.5; } catch {}
 
     sock.on('connect', () => setState(s => ({ ...s, status: 'online' })));
     sock.on('disconnect', () => setState(s => ({ ...s, status: 'reconnecting' })));

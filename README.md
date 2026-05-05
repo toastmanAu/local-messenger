@@ -4,6 +4,10 @@ A small private chatroom you self-host. PWA-friendly on Android, iPhone, and des
 
 A passphrase keeps strangers out. There's no end-to-end encryption — the server can read messages by design (single-tenant, single-room).
 
+<p align="center">
+  <img src="docs/screenshot.jpeg" alt="Connect screen with eight animal avatars" width="360" />
+</p>
+
 ## Features
 
 - One shared room, multiple participants, real-time via Socket.io

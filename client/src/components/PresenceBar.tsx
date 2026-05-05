@@ -3,7 +3,7 @@ export function PresenceBar({ connected }: { connected: Array<{ name: string; av
     <div className="presence-bar">
       {connected.map(p => (
         <div key={p.name} className="presence-pill">
-          <img src={`avatars/${p.avatar}.png`} alt={p.avatar} />
+          <img src={`${import.meta.env.BASE_URL}avatars/${p.avatar}.png`} alt={p.avatar} />
           <span>{p.name}</span>
         </div>
       ))}

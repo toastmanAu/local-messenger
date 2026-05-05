@@ -25,7 +25,7 @@ export function MessageBubble({ m, mine, pending, failed }: MessageBubbleProps) 
   const cls = `bubble ${mine ? 'mine' : 'other'}${pending ? ' pending' : ''}${failed ? ' failed' : ''}`;
   return (
     <div className={cls}>
-      {!mine && <img className="avatar" src={`avatars/${m.sender_avatar}.png`} alt={m.sender_avatar} />}
+      {!mine && <img className="avatar" src={`${import.meta.env.BASE_URL}avatars/${m.sender_avatar}.png`} alt={m.sender_avatar} />}
       <div className="bubble-body">
         {!mine && <div className="who">{m.sender_name}</div>}
         {m.kind === 'text'

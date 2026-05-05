@@ -49,7 +49,7 @@ export function ConnectScreen({ onConnect }: ConnectScreenProps) {
           <label key={slug} className={`avatar-option ${avatar === slug ? 'selected' : ''}`}>
             <input type="radio" name="avatar" value={slug} aria-label={slug}
                    checked={avatar === slug} onChange={() => setAvatar(slug)} />
-            <img src={`avatars/${slug}.png`} alt={slug} />
+            <img src={`${import.meta.env.BASE_URL}avatars/${slug}.png`} alt={slug} />
             <span>{slug}</span>
           </label>
         ))}
