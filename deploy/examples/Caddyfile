@@ -1,0 +1,31 @@
+# Caddy v2 — root-mount, automatic TLS via Let's Encrypt.
+#
+# Replace `chat.example.com` with your hostname (must point at this host).
+# Caddy handles WebSocket upgrades automatically — no extra config needed.
+#
+# Save as /etc/caddy/Caddyfile, then:
+#   sudo systemctl reload caddy
+#
+# In .env (or /etc/local-messenger/env), leave these empty for root-mount:
+#   BASE_PATH=
+#   PUBLIC_BASE_PATH=
+#   VITE_BASE_PATH=/
+
+chat.example.com {
+	reverse_proxy 127.0.0.1:3000
+
+	# Image uploads can exceed Caddy's default request size.
+	request_body {
+		max_size 25MB
+	}
+}
+
+# --- Path-mount variant (e.g. you want the chat at /chat) ---
+# example.com {
+#     handle_path /chat/* {
+#         reverse_proxy 127.0.0.1:3000
+#     }
+#     # ...your other routes...
+# }
+# In env, set PUBLIC_BASE_PATH=/chat and VITE_BASE_PATH=/chat/, then rebuild.
+# Note: handle_path strips the prefix, so BASE_PATH stays empty.

@@ -52,17 +52,16 @@ The installer will:
 4. Render the systemd unit with the current user and repo path
 5. Build, install, and start the service on `127.0.0.1:3000`
 
-Then expose port 3000 to the public somehow. Two options:
+Then expose port 3000 to the public. Pick whichever fits — copy-paste configs are in [`deploy/examples/`](deploy/examples/).
 
-**Tailscale Funnel** (path-scoped under `/chat`):
+| Option | Best when | Example |
+|---|---|---|
+| **Caddy** | You want zero-config TLS via Let's Encrypt | [`deploy/examples/Caddyfile`](deploy/examples/Caddyfile) |
+| **nginx** | You already run nginx; want fine control | [`deploy/examples/nginx.conf`](deploy/examples/nginx.conf) |
+| **Cloudflare Tunnel** | No public IP / want edge protection | [`deploy/examples/cloudflared.yml`](deploy/examples/cloudflared.yml) |
+| **Tailscale Funnel** | Path-scoped exposure on a tailnet machine | `sudo tailscale funnel --bg --set-path /chat 3000` |
 
-```bash
-sudo tailscale funnel --bg --set-path /chat 3000
-```
-
-In `.env`, set `PUBLIC_BASE_PATH=/chat` and `VITE_BASE_PATH=/chat/` so the client and the URLs the server emits match the public path. Rebuild after changing those.
-
-**Reverse proxy** (Caddy, nginx, etc.) terminating TLS with Let's Encrypt and forwarding to `127.0.0.1:3000` — leave `PUBLIC_BASE_PATH` and `VITE_BASE_PATH` empty if mounted at the root.
+Most options mount at the root — leave `PUBLIC_BASE_PATH` and `VITE_BASE_PATH` empty (defaults). Tailscale Funnel above mounts under `/chat`, so set `PUBLIC_BASE_PATH=/chat` and `VITE_BASE_PATH=/chat/` and rebuild. See [`deploy/examples/README.md`](deploy/examples/README.md) for the env-var matrix and the three things any proxy needs to handle (loopback target, WebSocket upgrade, ~25 MB request bodies).
 
 ### Installing on iOS / Android
 

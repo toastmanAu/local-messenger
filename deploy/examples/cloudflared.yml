@@ -1,0 +1,33 @@
+# Cloudflare Tunnel (`cloudflared`) — no public IP, no certbot.
+# TLS terminates at Cloudflare's edge; the tunnel forwards to localhost:3000.
+#
+# Setup (one time):
+#   1. Install cloudflared (https://pkg.cloudflare.com)
+#   2. cloudflared tunnel login
+#   3. cloudflared tunnel create local-messenger
+#      — note the tunnel UUID, and creds path printed at the end
+#   4. cloudflared tunnel route dns local-messenger chat.example.com
+#   5. Save this file as /etc/cloudflared/config.yml (replace the UUID + creds path)
+#   6. sudo cloudflared service install
+#      sudo systemctl enable --now cloudflared
+#
+# In .env (or /etc/local-messenger/env), leave these empty for root-mount:
+#   BASE_PATH=
+#   PUBLIC_BASE_PATH=
+#   VITE_BASE_PATH=/
+
+tunnel: REPLACE_WITH_YOUR_TUNNEL_UUID
+credentials-file: /etc/cloudflared/REPLACE_WITH_YOUR_TUNNEL_UUID.json
+
+# Cloudflare recommends originRequest defaults that work for Socket.io WS.
+originRequest:
+  noTLSVerify: false
+  connectTimeout: 30s
+  # Disable Cloudflare's HTTP/2-to-origin so WebSocket upgrades pass through.
+  http2Origin: false
+
+ingress:
+  - hostname: chat.example.com
+    service: http://localhost:3000
+  # Catch-all (required) — anything else returns 404.
+  - service: http_status:404
